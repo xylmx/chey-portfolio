@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guestbook - Chey's Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation bar -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="favorites.html">Favorites</a></li>
+      <li><a href="guestbook.html">Guestbook</a></li>
+    </ul>
+  </nav>
+
+<!-- Main content -->
+<main class="guestbook">
+  <h1>📖 Guestbook</h1>
+  <p>Leave me a cute little note!</p>
+
+<!-- 💌 Guestbook Message Section -->
+  <section class="message-box">
+    <h2>💌 Leave a Message</h2>
+        <form id="guestForm">
+        <input type="text" name="name" placeholder="Your name (optional)" class="guest-name" />
+        
+        <label for="mood">How are you feeling today? 💖</label>
+        <select name="mood" id="mood" required>
+            <option value="" disabled selected>Select a mood</option>
+            <option value="😊 Happy">😊 Happy</option>
+            <option value="😆 Excited">😆 Excited</option>
+            <option value="🥺 Sentimental">🥺 Sentimental</option>
+            <option value="😭 Emotional">😭 Emotional</option>
+            <option value="😴 Tired">😴 Tired</option>
+            <option value="🥰 Inspired">🥰 Inspired</option>
+            <option value="😤 Angry">😤 Angry</option>
+        </select>
+
+        <textarea name="message" placeholder="Type your message..." required></textarea>
+        <button type="submit">Send ✨</button>
+        </form>
+    <div id="thankYouPopup" class="hidden">🌸 Thank you for your message! 🌸</div>
+
+    <!-- 📝 Example Polaroid Notes -->
+    <div class="polaroid-messages">
+      <div class="polaroid-note">
+        <p>love love💖</p>
+        <span>— basta</span>
+      </div>
+      <div class="polaroid-note">
+        <p>cutieee ✨</p>
+        <span>— secret</span>
+      </div>
+      <div class="polaroid-note">
+        <p>“yizhan supremacy!!!”</p>
+        <span>— me</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<audio id="bgMusic" src="bgmusic.mp3" loop hidden></audio>
+<button onclick="toggleMusic()">🔈</button>
+
+<script>
+  function toggleMusic() {
+    const music = document.getElementById('bgMusic');
+    music.paused ? music.play() : music.pause();
+  }
+</script> 
+
+<script>
+  const bgMusic = document.getElementById('bgMusic');
+  bgMusic.volume = 0.2;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('bgMusicPlaying') === 'true') {
+      bgMusic.play();
+    }
+  });
+
+  function toggleMusic() {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      localStorage.setItem('bgMusicPlaying', 'true');
+    } else {
+      bgMusic.pause();
+      localStorage.setItem('bgMusicPlaying', 'false');
+    }
+  }
+</script>
+
+<button onclick="topFunction()" id="backToTopBtn" title="Go to top">⬆️</button>
+
+<script>
+  window.onscroll = function () {
+    const btn = document.getElementById("backToTopBtn");
+    btn.style.display = (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) ? "block" : "none";
+  };
+
+  function topFunction() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+<script>
+  let selectedMood = '';
+
+  function setMood(mood) {
+    selectedMood = mood;
+    document.getElementById("moodMessage").textContent = `You're feeling: ${mood}! Thanks for sharing 🌷`;
+    document.getElementById("feelingInput").value = mood;
+  }
+
+  document.getElementById("guestForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+
+    await fetch("https://formspree.io/f/xwpqbeba", {
+      method: "POST",
+      body: data,
+      headers: {
+        Accept: "application/json"
+      }
+    });
+
+    const popup = document.getElementById("thankYouPopup");
+    popup.classList.remove("hidden");
+    popup.classList.add("show");
+
+    form.reset();
+    document.getElementById("moodMessage").textContent = "Click a mood above to share how you're feeling!";
+    setTimeout(() => {
+      popup.classList.remove("show");
+      popup.classList.add("hidden");
+    }, 4000);
+  });
+</script>
+
+  <!-- 💌 Footer -->
+  <footer>
+    <p>© 2025 CHEY. All rights reserved.</p>
+  </footer>
+
+  <script>
+  document.getElementById("guestForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+
+    await fetch("https://formspree.io/f/xwpqbeba", {
+      method: "POST",
+      body: data,
+      headers: {
+        Accept: "application/json"
+      }
+    });
+
+    // Show popup
+    const popup = document.getElementById("thankYouPopup");
+    popup.classList.remove("hidden");
+    popup.classList.add("show");
+
+    // Clear form
+    form.reset();
+
+    // Hide popup after 4 seconds
+    setTimeout(() => {
+      popup.classList.remove("show");
+      popup.classList.add("hidden");
+    }, 4000);
+  });
+</script>
+
+</body>
+</html>

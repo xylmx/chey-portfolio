@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery - Chey's Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="favorites.html">Favorites</a></li>
+      <li><a href="guestbook.html">Guestbook</a></li>
+    </ul>
+  </nav>
+
+  <main class="gallery">
+    <h1>My Gallery ✨</h1>
+    <p>A peek into my life 💜 – me, my friends, and family!</p>
+
+<!-- Personal Pics -->
+<section class="gallery-section">
+  <h2>ME 💖</h2>
+  <div class="photo-grid">
+    <div class="photo-card"><img src="img/me1.jpg" alt="Me 1" /><p>Just me!</p></div>
+    <div class="photo-card"><img src="img/me2.jpg" alt="Me 2" /><p>Me again ✨</p></div>
+    <div class="photo-card"><img src="img/me3.jpg" alt="Me 3" /><p>Vibes 💅</p></div>
+  </div>
+</section>
+
+<!-- Friends Pics -->
+<section class="gallery-section">
+  <h2>FRIENDS 🌼</h2>
+  <div class="photo-grid">
+    <div class="photo-card"><img src="img/friends1.jpg" alt="Friends 1" /><p>Good times</p></div>
+    <div class="photo-card"><img src="img/friends2.jpg" alt="Friends 2" /><p>BFF moments</p></div>
+    <div class="photo-card"><img src="img/friends3.jpg" alt="Friends 3" /><p>Me and my girls</p></div>
+    <div class="photo-card"><img src="img/friends4.jpg" alt="Friends 4" /><p>My sisters</p></div>
+    <div class="photo-card"><img src="img/friends5.jpg" alt="Friends 5" /><p>More memories</p></div>
+  </div>
+</section>
+
+<!-- Family Pics -->
+<section class="gallery-section">
+  <h2>FAMILY 🏡</h2>
+  <div class="photo-grid">
+    <div class="photo-card"><img src="img/fam1.jpg" alt="Family 1" /><p>Family Love 💞</p></div>
+    <div class="photo-card"><img src="img/fam2.jpg" alt="Family 2" /><p>Home</p></div>
+    <div class="photo-card"><img src="img/fam3.jpg" alt="Family 3" /><p>Bonding</p></div>
+    <div class="photo-card"><img src="img/fam4.jpg" alt="Family 4" /><p>Smiles 🥰</p></div>
+  </div>
+</section>
+
+  </main>
+
+<!-- Lightbox Overlay with Prev/Next Buttons -->
+<div id="lightbox" class="lightbox">
+  <span class="close">&times;</span>
+  <img class="lightbox-content" id="lightbox-img" />
+  <button class="nav-btn prev">&#10094;</button>
+  <button class="nav-btn next">&#10095;</button>
+</div>
+
+<script>
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const closeBtn = document.querySelector(".close");
+  const nextBtn = document.querySelector(".next");
+  const prevBtn = document.querySelector(".prev");
+  const images = Array.from(document.querySelectorAll(".photo-grid img"));
+  let currentIndex = 0;
+
+  function showImage(index) {
+    const img = images[index];
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+  }
+
+  images.forEach((img, i) => {
+    img.addEventListener("click", () => {
+      currentIndex = i;
+      showImage(currentIndex);
+      lightbox.style.display = "flex";
+    });
+  });
+
+  closeBtn.addEventListener("click", () => {
+    lightbox.style.display = "none";
+  });
+
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = "none";
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+  });
+
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage(currentIndex);
+  });
+</script>
+
+<audio id="bgMusic" src="bgmusic.mp3" loop hidden></audio>
+<button onclick="toggleMusic()">🔈</button>
+
+<script>
+  function toggleMusic() {
+    const music = document.getElementById('bgMusic');
+    music.paused ? music.play() : music.pause();
+  }
+</script>
+
+<script>
+  const bgMusic = document.getElementById('bgMusic');
+  bgMusic.volume = 0.2;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('bgMusicPlaying') === 'true') {
+      bgMusic.play();
+    }
+  });
+
+  function toggleMusic() {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      localStorage.setItem('bgMusicPlaying', 'true');
+    } else {
+      bgMusic.pause();
+      localStorage.setItem('bgMusicPlaying', 'false');
+    }
+  }
+</script>
+
+<button onclick="topFunction()" id="backToTopBtn" title="Go to top">⬆️</button>
+
+<script>
+  window.onscroll = function () {
+    const btn = document.getElementById("backToTopBtn");
+    btn.style.display = (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) ? "block" : "none";
+  };
+
+  function topFunction() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+  <!-- 💌 Footer -->
+  <footer>
+    <p>© 2025 CHEY. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
