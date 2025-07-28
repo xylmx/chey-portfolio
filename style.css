@@ -773,3 +773,11 @@ form select:focus {
   border-color: #d69fff;
   outline: none;
 }
+
+.intro-name {
+  font-size: 2.2rem;
+  color: #800080
+  font-family:'Lazy Monday', cursive;
+  text-align: center;
+  margin-top: 1rem;
+}
